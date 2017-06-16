@@ -1,0 +1,1 @@
+LEGACY_LIST_NAMES = ['federal_legislator', 'state_governor']

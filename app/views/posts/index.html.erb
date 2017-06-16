@@ -1,0 +1,55 @@
+<div class="col-lg-3">
+  <div class="well sidebar-nav">
+    <h3>Filters</h3>
+    <form id="search_fields" name="search">
+      <fieldset class="form-group">
+        <legend>Site</legend>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Facebook" checked="checked" name="site[]">
+            Facebook
+          </label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" value="Twitter" checked="checked" name="site[]">
+            Twitter
+          </label>
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <legend>Lists</legend>
+        <%- LEGACY_LIST_NAMES.each do |list_name|%>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="legacy_lists[]" value="<%= list_name %>" checked="checked">
+              <%= list_name.humanize %>
+            </label>
+          </div>
+        <%- end %>
+        <%- @lists.each do |list| %>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" name="custom_list_ids[]" value="<%= list.id %>" checked="checked">
+              <%= list.name %>
+            </label>
+          </div>
+        <%- end %>
+      </fieldset>
+      <fieldset class="form-group">
+        <legend>Dates</legend>
+        <div class="row">
+          <label for="example-search-input" class="col-2 col-form-label">Posted After</label>
+          <%= date_select('posted', 'after', {}, {class: 'form-control'}) %>          
+        </div>
+        <div class="row">
+          <label for="example-search-input" class="col-2 col-form-label">Posted Before</label>
+          <%= date_select('posted', 'before', {}, {class: 'form-control'}) %>
+        </div>
+      </fieldset>
+    </form>
+  </div><!--/.well -->
+</div><!--/span-->
+<div class="col-lg-9">
+  <%= react_component 'Posts', { posts: @posts.collect{ |post| post.as_json(methods: :username, only: [:content, :posting_time, :site, :link] )} } %>
+</div>
